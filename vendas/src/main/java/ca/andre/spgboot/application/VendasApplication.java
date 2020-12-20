@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VendasApplication
 {
-    @Value("${spring.application.name}")
+	@Value("${spring.application.name}")
     private String applicationName;
 
     @GetMapping("/hello")
