@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Bean;
 public class ProjectConfiguration
 {
 	@Bean
-	public CommandLineRunner executar() {
-		return args -> {
+	public CommandLineRunner executar() 
+	{
+		return args -> 
+		{
 			System.out.println("RUN DEVLOPMENT'S CONFIGURATION");
 			
 		};
 	}
-
 }

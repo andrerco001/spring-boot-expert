@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Autowired
 @Qualifier("cat")
-public @interface Cat {
+public @interface Cat 
+{
 
 }

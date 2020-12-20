@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 @Retention(RetentionPolicy.RUNTIME)
 @Autowired
 @Qualifier("dog")
-public @interface Dog {
+public @interface Dog 
+{
 
 }

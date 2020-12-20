@@ -15,12 +15,14 @@ public class ClientsService {
         this.clientsRepository = clientsRepository;
     }
 
-    public  void saveClient(Client client){
+    public  void saveClient(Client client)
+    {
         validationClient(client);
         clientsRepository.persist(client);
     }
 
-    public void validationClient(Client client){
+    public void validationClient(Client client)
+    {
         // validation client
     }
 }

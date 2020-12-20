@@ -19,7 +19,8 @@ public class VendasApplication
 	private Animal animal;
 	
 	@Bean(name = "executarAnimal")
-	public CommandLineRunner executar() {
+	public CommandLineRunner executar() 
+	{
 		return args -> {
 			this.animal.makeNoise();	
 		};
