@@ -4,29 +4,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import ca.andre.spgboot.application.domain.entity.Customer;
 
 @Repository
 public class CustomerRepository 
 {
-	private static String INSERT = "insert into customers (name) values (?) ";
 	private static String SELECT_ALL = "select * from customers ";
 	private static String UPDATE = "update customers set name = ? where id = ? ";
 	private static String DELETE = "delete from customers where id = ? ";
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private EntityManager entityManager;
 
 	// Create
+	@Transactional
 	public Customer save(Customer customer) 
 	{
-		jdbcTemplate.update(INSERT, new Object[] { customer.getName() });
-
+		entityManager.persist(customer);
 		return customer;
 	}
 	

@@ -26,20 +26,20 @@ public class SalesApplication {
 			allCustomers.forEach(System.out::println);
 
 			// Read
-			System.out.println("Find by name");
-			customerRepository.findByName("Lil").forEach(System.out::println);
+//			System.out.println("Find by name");
+//			customerRepository.findByName("Lil").forEach(System.out::println);
 
 			// Update
-			System.out.println("Update");
-			allCustomers.forEach(c -> {
-				c.setName(c.getName() + " atualizado");
-				customerRepository.update(c);
-			});
+//			System.out.println("Update");
+//			allCustomers.forEach(c -> {
+//				c.setName(c.getName() + " atualizado");
+//				customerRepository.update(c);
+//			});
 
 			// Fid all
-			System.out.println("Find all customers");
-			allCustomers = customerRepository.findAll();
-			allCustomers.forEach(System.out::println);
+//			System.out.println("Find all customers");
+//			allCustomers = customerRepository.findAll();
+//			allCustomers.forEach(System.out::println);
 
 			// Delete
 //			System.out.println("Deleting customers");
@@ -47,13 +47,13 @@ public class SalesApplication {
 //				customerRepository.delete(c.getId());
 //			});
 
-			allCustomers = customerRepository.findAll();
-			if (allCustomers.isEmpty()) {
-				System.out.println("Customers not found!");
-
-			} else {
-				allCustomers.forEach(System.out::println);
-			}
+//			allCustomers = customerRepository.findAll();
+//			if (allCustomers.isEmpty()) {
+//				System.out.println("Customers not found!");
+//
+//			} else {
+//				allCustomers.forEach(System.out::println);
+//			}
 
 		};
 	}
