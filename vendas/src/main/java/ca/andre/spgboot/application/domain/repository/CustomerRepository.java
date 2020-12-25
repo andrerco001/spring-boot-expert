@@ -11,6 +11,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>
 
 	List<Customer> findByNameLike(String name);
 	
+	List<Customer> findByNameOrIdOrderById(String name, Integer id);
+	
+	boolean existsByName(String name);
+	
 	
 	
 	
