@@ -23,12 +23,14 @@ public class SalesApplication {
 			customerRepository.save(new Customer("Lilys"));
 
 			// Find customer by name
+			System.out.println("Find all customers");
+			List<Customer> allCustomers = customerRepository.findAll();
+			allCustomers.forEach(System.out::println);
+
+			// Find customer by name
 			System.out.println("Find customers by name");
 			List<Customer> result = customerRepository.findByNameCustomer("Andre");
-			System.out.println(result.toString());
-			// result.forEach(System.out::println);
-			
-			
+			result.forEach(System.out::println);
 
 		};
 	}

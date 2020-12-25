@@ -15,9 +15,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>
 	@Query(value = "select * from customer c where c.name like %:name%", nativeQuery = true)
 	List<Customer> findByNameCustomer(@Param("name") String name);
 	
-	@Query(value = "delete from customer c where c.name = :name")
 	@Modifying
-	void deleteByName(@Param("name") String name);
+	@Query("delete from Customer c where c.name = :name")
+	void deleteCustomer(@Param("name") String name);
 	
 	boolean existsByName(String name);
 	
