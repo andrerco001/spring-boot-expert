@@ -26,10 +26,9 @@ public class SalesApplication {
 			System.out.println("Find all customers");
 			List<Customer> allCustomers = customerRepository.findAll();
 			allCustomers.forEach(System.out::println);
-			
+
 			boolean existsCustomer = customerRepository.existsByName("Paul");
 			System.out.println("Is there a customer named Paul? " + existsCustomer);
-				
 
 		};
 	}
