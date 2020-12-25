@@ -22,31 +22,34 @@ public class SalesApplication {
 			customerRepository.save(new Customer("Andre"));
 			customerRepository.save(new Customer("Lilys"));
 
+			// Find All
+			System.out.println("Find all customers");
 			List<Customer> allCustomers = customerRepository.findAll();
 			allCustomers.forEach(System.out::println);
-
-			// Read
-			System.out.println("Find by name");
-			customerRepository.findByName("Lil").forEach(System.out::println);
 
 			// Update
 			System.out.println("Update");
 			allCustomers.forEach(c -> {
 				c.setName(c.getName() + " atualizado");
-				customerRepository.update(c);
+				customerRepository.save(c);
 			});
 
-			// Fid all
+			// Find All
 			System.out.println("Find all customers");
 			allCustomers = customerRepository.findAll();
 			allCustomers.forEach(System.out::println);
 
+			// Read by name
+			System.out.println("Find by name");
+			customerRepository.findByNameLike("Lil").forEach(System.out::println);
+
 			// Delete
-			System.out.println("Deleting customers");
+			System.out.println("Deleting all customers");
 			customerRepository.findAll().forEach(c -> {
-				customerRepository.delete(c.getId());
+				customerRepository.delete(c);
 			});
 
+			// Find All
 			allCustomers = customerRepository.findAll();
 			if (allCustomers.isEmpty()) {
 				System.out.println("Customers not found!");
