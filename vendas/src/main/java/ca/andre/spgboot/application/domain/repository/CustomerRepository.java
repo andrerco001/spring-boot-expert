@@ -21,5 +21,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>
 	
 	boolean existsByName(String name);
 	
+	@Query(" select c from Customer c left join fetch c.orders o where c.id = :id ")
+	Customer findCustomerFetchOrders(@Param("id") Integer id);
+	
+	
+	
 
 }

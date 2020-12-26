@@ -30,7 +30,7 @@ public class Orders {
 	@Column(name = "date_orders")
 	private LocalDate orderDate;
 	
-	@Column(name = "total", length = 20, precision = 2)
+	@Column(name = "total", precision = 20, scale = 2)
 	private BigDecimal total;
 	
 	@OneToMany(mappedBy = "orders")
@@ -74,6 +74,11 @@ public class Orders {
 
 	public void setItenOrders(List<ItenOrders> itenOrders) {
 		this.itenOrders = itenOrders;
+	}
+
+	@Override
+	public String toString() {
+		return "Orders [ id = " + id + ", orderDate = " + orderDate + ", total = " + total + " ]";
 	}
 
 }
