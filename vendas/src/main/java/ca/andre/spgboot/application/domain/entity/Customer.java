@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "customer")
 public class Customer 
@@ -23,6 +25,7 @@ public class Customer
 	@Column(name = "name", length = 100)
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	private Set<Orders> orders;
 	
