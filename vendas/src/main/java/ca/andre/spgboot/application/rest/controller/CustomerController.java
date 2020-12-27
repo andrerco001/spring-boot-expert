@@ -6,21 +6,25 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import ca.andre.spgboot.application.domain.entity.Customer;
 import ca.andre.spgboot.application.domain.repository.CustomerRepository;
 
-@Controller
+@RestController
+@RequestMapping("/api/customer")
 public class CustomerController {
+
 	@Autowired
 	private CustomerRepository customerRepository;
 
@@ -28,62 +32,51 @@ public class CustomerController {
 		this.customerRepository = customerRepository;
 	}
 
-	@GetMapping("/api/customer/{id}")
-	@ResponseBody
-	public ResponseEntity getCustomerById(@PathVariable("id") Integer id) {
-		Optional<Customer> customer = customerRepository.findById(id);
+	@GetMapping("{id}")
+	public Customer getCustomerById(@PathVariable("id") Integer id) {
 
-		if (customer.isPresent()) {
-			return ResponseEntity.ok(customer.get());
-		} else {
-
-			return ResponseEntity.notFound().build();
-		}
+		return customerRepository
+				.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
 	}
 
-	@PostMapping("/api/customer")
-	@ResponseBody
-	public ResponseEntity save(@RequestBody Customer customer) {
-		Customer savedCustomer = customerRepository.save(customer);
-
-		return ResponseEntity.ok(savedCustomer);
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Customer save(@RequestBody Customer customer) {
+		return customerRepository.save(customer);
+	}
+	
+	@DeleteMapping("{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Integer id) {
+		
+		customerRepository
+		.findById(id)
+		.map(customer -> {
+			customerRepository.delete(customer);
+			return customer;
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
 	}
 
-	@DeleteMapping("/api/customer/{id}")
-	@ResponseBody
-	public ResponseEntity delete(@PathVariable("id") Integer id) {
-		Optional<Customer> customer = customerRepository.findById(id);
-
-		if (customer.isPresent()) {
-			customerRepository.delete(customer.get());
-
-			return ResponseEntity.noContent().build();
-		} else {
-
-			return ResponseEntity.notFound().build();
-		}
-	}
-
-	@PutMapping("/api/customer/{id}")
-	@ResponseBody
-	public ResponseEntity update(@PathVariable("id") Integer id, @RequestBody Customer customer) {
-		return customerRepository.findById(id).map(existCustomer -> {
+	@PutMapping("{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void update(@PathVariable("id") Integer id, @RequestBody Customer customer) {
+		 customerRepository
+		 .findById(id)
+		 .map(existCustomer -> {
 			customer.setId(existCustomer.getId());
 			customerRepository.save(customer);
-			return ResponseEntity.noContent().build();
-		}).orElseGet(() -> ResponseEntity.notFound().build());
+			return existCustomer;
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
 	}
 
-	@GetMapping("/api/customer")
-	public ResponseEntity find(Customer filter) {
+	@GetMapping
+	public List<Customer> find(Customer filter) {
 
-		ExampleMatcher matcher = ExampleMatcher
-				.matching()
-				.withIgnoreCase()
+		ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()
 				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-		Example example = Example.of(filter, matcher);
-		List<Customer> list = customerRepository.findAll(example);
-		return ResponseEntity.ok(list);
+		Example<Customer> example = Example.of(filter, matcher);
+		return customerRepository.findAll(example);
 	}
 
 }
