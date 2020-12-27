@@ -1,7 +1,6 @@
 package ca.andre.spgboot.application.rest.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -48,7 +47,7 @@ public class CustomerController {
 	
 	@DeleteMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Integer id) {
+	public void delete(@PathVariable("id") Integer id) {
 		
 		customerRepository
 		.findById(id)
@@ -66,7 +65,7 @@ public class CustomerController {
 		 .map(existCustomer -> {
 			customer.setId(existCustomer.getId());
 			customerRepository.save(customer);
-			return existCustomer;
+			return Void.TYPE;
 		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found!"));
 	}
 
