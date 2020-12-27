@@ -13,6 +13,13 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "customer")
 public class Customer 
@@ -32,10 +39,6 @@ public class Customer
 	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	private Set<Orders> orders;
 	
-	public Customer() {
-	
-	}
-	
 	public Customer(Integer id, String name) {
 		this.id = id;
 		this.name = name;
@@ -43,43 +46,6 @@ public class Customer
 	
 	public Customer(String name) {
 		this.name = name;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public Set<Orders> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(Set<Orders> orders) {
-		this.orders = orders;
-	}
-
-	@Override
-	public String toString() {
-		return "Customer [ Id = " + id + ", Name = " + name + " ]";
 	}
 	
 }

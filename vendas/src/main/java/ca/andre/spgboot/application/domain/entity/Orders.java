@@ -14,6 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Orders {
@@ -35,50 +42,5 @@ public class Orders {
 	
 	@OneToMany(mappedBy = "orders")
 	private List<ItenOrders> itenOrders;
-	
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	public Customer getCustomer() {
-		return customer;
-	}
-	
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-	
-	public LocalDate getOrderDate() {
-		return orderDate;
-	}
-	
-	public void setOrderDate(LocalDate orderDate) {
-		this.orderDate = orderDate;
-	}
-	
-	public BigDecimal getTotal() {
-		return total;
-	}
-	
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
-
-	public List<ItenOrders> getItenOrders() {
-		return itenOrders;
-	}
-
-	public void setItenOrders(List<ItenOrders> itenOrders) {
-		this.itenOrders = itenOrders;
-	}
-
-	@Override
-	public String toString() {
-		return "Orders [ id = " + id + ", orderDate = " + orderDate + ", total = " + total + " ]";
-	}
 
 }
