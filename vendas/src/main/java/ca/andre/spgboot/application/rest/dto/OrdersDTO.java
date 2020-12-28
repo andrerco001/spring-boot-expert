@@ -15,14 +15,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrdersDTO {
 	
-	@NotNull(message = "Enter the customer code.")
+	@NotNull(message = "{field.code-customer.required}")
 	private Integer customer;
 	
-	@NotNull(message = "The total field is required.")
+	@NotNull(message = "{field.total-orders.required}")
 	private BigDecimal total;
 	
-	@NotEmptyList(message = "The order can be placed without items.")
+	@NotEmptyList(message = "{field.itens-orders.required}")
 	private List<ItenOrdersDTO> itens;
-	
 
 }

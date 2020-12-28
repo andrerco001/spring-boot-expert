@@ -33,12 +33,12 @@ public class Customer
 	private Integer id;
 	
 	@Column(name = "name", length = 100)
-	@NotEmpty(message = "The name field is required.")
+	@NotEmpty(message = "{field.name.required}")
 	private String name;
 	
 	@Column(name = "cpf", length = 11)
-	@NotEmpty(message = "The cpf field is required.")
-	@CPF(message = "Please provide a valid CPF.")
+	@NotEmpty(message = "{field.cpf.required}")
+	@CPF(message = "{field.cpf.invalid}")
 	private String cpf;
 	
 	@JsonIgnore
