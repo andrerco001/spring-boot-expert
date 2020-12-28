@@ -2,17 +2,18 @@ package ca.andre.spgboot.application.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.andre.spgboot.application.domain.entity.Customer;
 import ca.andre.spgboot.application.domain.entity.ItenOrders;
 import ca.andre.spgboot.application.domain.entity.Orders;
 import ca.andre.spgboot.application.domain.entity.Product;
+import ca.andre.spgboot.application.domain.enums.StatusOrders;
 import ca.andre.spgboot.application.domain.repository.CustomerRepository;
 import ca.andre.spgboot.application.domain.repository.ItenOrdersRepository;
 import ca.andre.spgboot.application.domain.repository.OrdersRepository;
@@ -27,16 +28,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
 
-	@Autowired
 	private final OrdersRepository ordersRepository;
 
-	@Autowired
 	private final CustomerRepository customerRepository;
 
-	@Autowired
 	private final ProductRepository productRepository;
 
-	@Autowired
 	private final ItenOrdersRepository itenOrdersRepository;
 
 	@Override
@@ -50,6 +47,7 @@ public class OrdersServiceImpl implements OrdersService {
 		orders.setTotal(ordersDTO.getTotal());
 		orders.setOrderDate(LocalDate.now());
 		orders.setCustomer(customer);
+		orders.setStatus(StatusOrders.ACCOMPLISHED);
 
 		List<ItenOrders> itenOrders = convertItens(orders, ordersDTO.getItens());
 		ordersRepository.save(orders);
@@ -76,6 +74,12 @@ public class OrdersServiceImpl implements OrdersService {
 			return itenOrders;
 
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<Orders> getCompletOrders(Integer id) {
+		
+		return ordersRepository.findByFetchItens(id);
 	}
 
 }
