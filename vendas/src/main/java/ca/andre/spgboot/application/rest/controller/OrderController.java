@@ -1,5 +1,6 @@
 package ca.andre.spgboot.application.rest.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import ca.andre.spgboot.application.service.OrdersService;
 @RequestMapping("api/order")
 public class OrderController {
 	
+	@Autowired
 	private OrdersService ordersService;
 
 	public OrderController(OrdersService ordersService) {
