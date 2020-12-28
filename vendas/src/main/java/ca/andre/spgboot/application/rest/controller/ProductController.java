@@ -2,6 +2,8 @@ package ca.andre.spgboot.application.rest.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -39,7 +41,7 @@ public class ProductController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Product save(@RequestBody Product product) {
+	public Product save(@RequestBody @Valid Product product) {
 		return productRepository.save(product);
 	}
 	
@@ -56,7 +58,7 @@ public class ProductController {
 	
 	@PutMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable("id") Integer id, @RequestBody Product product) {
+	public void update(@PathVariable("id") Integer id, @RequestBody @Valid Product product) {
 		productRepository
 		.findById(id)
 		.map(existProduct -> {

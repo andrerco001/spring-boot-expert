@@ -61,7 +61,7 @@ public class CustomerController {
 
 	@PutMapping("{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable("id") Integer id, @RequestBody Customer customer) {
+	public void update(@PathVariable("id") Integer id, @RequestBody @Valid Customer customer) {
 		 customerRepository
 		 .findById(id)
 		 .map(existCustomer -> {
