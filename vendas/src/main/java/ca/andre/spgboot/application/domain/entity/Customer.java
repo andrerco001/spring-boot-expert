@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +37,8 @@ public class Customer
 	private String name;
 	
 	@Column(name = "cpf", length = 11)
+	@NotEmpty(message = "The cpf field is required.")
+	@CPF(message = "Please provide a valid CPF.")
 	private String cpf;
 	
 	@JsonIgnore
