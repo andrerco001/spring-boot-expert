@@ -19,6 +19,7 @@ import ca.andre.spgboot.application.domain.repository.ItenOrdersRepository;
 import ca.andre.spgboot.application.domain.repository.OrdersRepository;
 import ca.andre.spgboot.application.domain.repository.ProductRepository;
 import ca.andre.spgboot.application.exception.BusinessRulesException;
+import ca.andre.spgboot.application.exception.OrderNotFoundException;
 import ca.andre.spgboot.application.rest.dto.ItenOrdersDTO;
 import ca.andre.spgboot.application.rest.dto.OrdersDTO;
 import ca.andre.spgboot.application.service.OrdersService;
@@ -80,6 +81,17 @@ public class OrdersServiceImpl implements OrdersService {
 	public Optional<Orders> getCompletOrders(Integer id) {
 		
 		return ordersRepository.findByFetchItens(id);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus(Integer id, StatusOrders statusOrders) {
+		ordersRepository
+		.findById(id)
+		.map(orders -> {
+			orders.setStatus(statusOrders);
+			return ordersRepository.save(orders);
+		}).orElseThrow(() -> new OrderNotFoundException());
 	}
 
 }

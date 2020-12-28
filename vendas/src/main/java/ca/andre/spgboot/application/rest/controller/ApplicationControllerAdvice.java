@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import ca.andre.spgboot.application.exception.BusinessRulesException;
+import ca.andre.spgboot.application.exception.OrderNotFoundException;
 import ca.andre.spgboot.application.rest.ApiErrors;
 
 @RestControllerAdvice
@@ -17,5 +18,11 @@ public class ApplicationControllerAdvice {
 		String messageError = ex.getMessage();
 		return new ApiErrors(messageError);
 	 }
+	
+	@ExceptionHandler(OrderNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ApiErrors handlerOrderNotFoundException(OrderNotFoundException ex) {
+		return new ApiErrors(ex.getMessage());
+	}
 
 }
