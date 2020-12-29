@@ -2,6 +2,7 @@ package ca.andre.spgboot.application.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -37,6 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/customer/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers("/api/order/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers("/api/product/**").hasRole("ADMIN")
+			.antMatchers(HttpMethod.POST, "/api/user/**").permitAll()
+			.anyRequest().authenticated()
 		.and()
 		.httpBasic();
 	}
