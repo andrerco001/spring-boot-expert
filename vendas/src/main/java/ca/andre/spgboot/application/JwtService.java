@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -26,17 +27,19 @@ public class JwtService {
 	public String tokenGenerator(User user) {
 		
 		long expString = Long.valueOf(expiration);
-		
 		LocalDateTime dateTimeExpiration = LocalDateTime.now().plusMinutes(expString);
-		
 		Instant instant = dateTimeExpiration.atZone(ZoneId.systemDefault()).toInstant();
-
 		Date date = Date.from(instant);
+		
+		HashMap<String, Object> claims = new HashMap<>();
+		claims.put("useremail", "user@gmail.com");
+		claims.put("roles", "USER");
 		
 		return Jwts
 				.builder()
 				.setSubject(user.getUsername())
 				.setExpiration(date)
+				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, signatureKey)
 				.compact();
 	}
