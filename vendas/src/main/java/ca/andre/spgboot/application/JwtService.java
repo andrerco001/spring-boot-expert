@@ -12,6 +12,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
 import ca.andre.spgboot.application.domain.entity.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -31,17 +33,38 @@ public class JwtService {
 		Instant instant = dateTimeExpiration.atZone(ZoneId.systemDefault()).toInstant();
 		Date date = Date.from(instant);
 		
-		HashMap<String, Object> claims = new HashMap<>();
-		claims.put("useremail", "user@gmail.com");
-		claims.put("roles", "USER");
-		
 		return Jwts
 				.builder()
 				.setSubject(user.getUsername())
 				.setExpiration(date)
-				.setClaims(claims)
 				.signWith(SignatureAlgorithm.HS512, signatureKey)
 				.compact();
+	}
+	
+	private Claims getClaims(String token) throws ExpiredJwtException {
+		return Jwts
+				.parser()
+				.setSigningKey(signatureKey)
+				.parseClaimsJws(token)
+				.getBody();
+	}
+	
+	public boolean tokenValid(String token) {
+		try {
+			Claims claims = getClaims(token);
+			Date expirationDate = claims.getExpiration();
+			LocalDateTime date =
+			expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return !LocalDateTime.now().isAfter(date);
+			
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public String getUsernameUser(String token) throws ExpiredJwtException {
+		return (String) getClaims(token).getSubject();
+		
 	}
 	
 	public static void main(String[] args) {
@@ -50,6 +73,11 @@ public class JwtService {
 		User user = User.builder().username("user").build();
 		String token = service.tokenGenerator(user);
 		System.out.println(token);
+		
+		boolean isTokenValid = service.tokenValid(token);
+		System.out.println("Is token valid? " + isTokenValid);
+		
+		System.out.println(service.getUsernameUser(token));
 		
 	}
 	
