@@ -1,16 +1,16 @@
-package ca.andre.spgboot.application;
+package ca.andre.spgboot.application.security.jwt;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Service;
 
+import ca.andre.spgboot.application.SalesApplication;
 import ca.andre.spgboot.application.domain.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
