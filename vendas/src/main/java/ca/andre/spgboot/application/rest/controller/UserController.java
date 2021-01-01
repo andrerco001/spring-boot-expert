@@ -47,7 +47,7 @@ public class UserController {
 			
 			UserDetails userAuthenticated = userServiceImpl.authenticate(user);
 			String token = jwtService.tokenGenerator(user);
-			return new TokenDTO(user.getUsername(), token);
+			return new TokenDTO(userAuthenticated.getUsername(), token);
 		
 		} catch (UsernameNotFoundException | PasswordInvalidException e) {
 			
