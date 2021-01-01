@@ -21,9 +21,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ca.andre.spgboot.application.domain.entity.Customer;
 import ca.andre.spgboot.application.domain.repository.CustomerRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/customer")
+@Api("Api Customer")
 public class CustomerController {
 
 	@Autowired
@@ -34,7 +40,12 @@ public class CustomerController {
 	}
 
 	@GetMapping("{id}")
-	public Customer getCustomerById(@PathVariable("id") Integer id) {
+	@ApiOperation("Get customer by id.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Customer found!"), 
+		@ApiResponse(code = 404, message = "Client not found for the given id!")
+	})
+	public Customer getCustomerById(@PathVariable("id") @ApiParam("Customer id") Integer id) {
 
 		return customerRepository
 				.findById(id)
@@ -43,6 +54,11 @@ public class CustomerController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation("Save a new customer.")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Customer saved successfully!"), 
+		@ApiResponse(code = 400, message = "Validation error!")
+	})
 	public Customer save(@RequestBody @Valid Customer customer) {
 		return customerRepository.save(customer);
 	}
